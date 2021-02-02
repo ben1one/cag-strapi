@@ -11,6 +11,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@cag/cag-components": "git+ssh://git@bitbucket.org/cag_developers/cag-components.git#c5de6c56",
     "moment": "^2.24.0",
     "next": "^9.5.4",
     "react": "16.13.1",

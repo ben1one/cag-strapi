@@ -6,6 +6,8 @@ import Image from "../../components/image";
 import Seo from "../../components/seo";
 import { getStrapiMedia } from "../../lib/media";
 
+import { Button, CagThemeProvider } from '@cag/cag-components';
+
 const Article = ({ article, categories }) => {
   const imageUrl = getStrapiMedia(article.image);
 
@@ -16,7 +18,7 @@ const Article = ({ article, categories }) => {
     article: true,
   };
 
-  const Button = () => <h1>Button</h1>;
+  // const Button = () => <h1>Button</h1>;
 
   const ContentParse = (props) => {
     console.log(props);
@@ -46,48 +48,53 @@ const Article = ({ article, categories }) => {
   return (
     <Layout categories={categories}>
       <Seo seo={seo} />
-      <div
-        id="banner"
-        className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
-        data-src={imageUrl}
-        data-srcset={imageUrl}
-        data-uk-img
-      >
-        <h1>{article.title}</h1>
-      </div>
-      <div className="uk-section">
-        <div className="uk-container uk-container-small">
-          <pre>
-            <ReactMarkdown source={article.content} escapeHtml={false} />
-          </pre>
-          {JSON.parse(article.content).map((obj, i) => {     
-            return <ContentParse key={i} prop={obj} />   
-          })}
-          <hr className="uk-divider-small" />
-          <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
-            <div>
-              {article.author.picture && (
-                <Image
-                  image={article.author.picture}
-                  style={{
-                    position: "static",
-                    borderRadius: "50%",
-                    height: 30,
-                  }}
-                />
-              )}
-            </div>
-            <div className="uk-width-expand">
-              <p className="uk-margin-remove-bottom">
-                By {article.author.name}
-              </p>
-              <p className="uk-text-meta uk-margin-remove-top">
-                <Moment format="MMM Do YYYY">{article.published_at}</Moment>
-              </p>
+      <CagThemeProvider ssr={{
+          isTablet: false,
+          isMobile: false
+        }}>
+        <div
+          id="banner"
+          className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
+          data-src={imageUrl}
+          data-srcset={imageUrl}
+          data-uk-img
+        >
+          <h1>{article.title}</h1>
+        </div>
+        <div className="uk-section">
+          <div className="uk-container uk-container-small">
+            <pre>
+              <ReactMarkdown source={article.content} escapeHtml={false} />
+            </pre>
+            {JSON.parse(article.content).map((obj, i) => {     
+              return <ContentParse key={i} prop={obj} />   
+            })}
+            <hr className="uk-divider-small" />
+            <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
+              <div>
+                {article.author.picture && (
+                  <Image
+                    image={article.author.picture}
+                    style={{
+                      position: "static",
+                      borderRadius: "50%",
+                      height: 30,
+                    }}
+                  />
+                )}
+              </div>
+              <div className="uk-width-expand">
+                <p className="uk-margin-remove-bottom">
+                  By {article.author.name}
+                </p>
+                <p className="uk-text-meta uk-margin-remove-top">
+                  <Moment format="MMM Do YYYY">{article.published_at}</Moment>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </CagThemeProvider>
     </Layout>
   );
 };

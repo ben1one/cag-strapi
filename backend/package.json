@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "@cag/cag-components": "git+ssh://git@bitbucket.org/cag_developers/cag-components.git#c5de6c56",
     "knex": "<0.20.0",
     "mime-types": "^2.1.27",
     "slate": "^0.59.0",
