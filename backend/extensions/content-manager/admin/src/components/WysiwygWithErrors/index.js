@@ -33,7 +33,7 @@ const WysiwygWithErrors = ({
       }}
     >
       <Label htmlFor={name} message={label} style={{ marginBottom: 10 }} />
-      <Editor name={name} onChange={onChange} value={value} />
+      {value !== null && <Editor name={name} onChange={onChange} value={value} />}
       <InputDescription
         message={inputDescription}
         style={!isEmpty(inputDescription) ? { marginTop: '1.4rem' } : {}}
