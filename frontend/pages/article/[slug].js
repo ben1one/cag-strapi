@@ -16,6 +16,33 @@ const Article = ({ article, categories }) => {
     article: true,
   };
 
+  const Button = () => <h1>Button</h1>;
+
+  const ContentParse = (props) => {
+    console.log(props);
+    switch(props.prop.type) {
+      case 'paragraph': {
+        return props.prop.children.map((child => {
+          if (child.bold) {
+            return <span style={{fontWeight: 'bold'}}>{child.text}</span>
+          } else if (child.italic) {
+            return <span style={{fontStyle: 'italic'}}>{child.text}</span>
+          } else {
+            return <span>{child.text}</span>
+          }
+        }));
+      };
+      case 'cag-button': {
+        return (
+          <span>
+            <Button>{props.newTitle}</Button>
+          </span>
+        );
+      };
+      default: return <Button size="small" onClick={()=>console.log('hi')} dataSelectorId="someButton">Custom</Button>;
+    }
+  }
+
   return (
     <Layout categories={categories}>
       <Seo seo={seo} />
@@ -30,7 +57,12 @@ const Article = ({ article, categories }) => {
       </div>
       <div className="uk-section">
         <div className="uk-container uk-container-small">
-          <ReactMarkdown source={article.content} escapeHtml={false} />
+          <pre>
+            <ReactMarkdown source={article.content} escapeHtml={false} />
+          </pre>
+          {JSON.parse(article.content).map((obj, i) => {     
+            return <ContentParse key={i} prop={obj} />   
+          })}
           <hr className="uk-divider-small" />
           <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
             <div>
