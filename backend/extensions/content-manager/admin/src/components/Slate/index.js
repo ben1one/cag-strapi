@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 
+import { CagThemeProvider } from '@cag/cag-components';
+
 const Wrapper = styled.div`
     border:1px solid #ccc;
     padding:1em;
@@ -13,6 +15,9 @@ const Wrapper = styled.div`
 `;
 
 const Editor = ({ onChange, name, value }) => {
+    const [isProductComparisonModalVisible, setIsProductComparisonModalVisible] = useState(false);
+    const [isProductDetailsPaneModalVisible, setIsProductDetailsPaneModalVisible] = useState(false);
+
     const editor = useMemo(() => withReact(createEditor()), [])
     let parsedValue
     try {
@@ -28,18 +33,23 @@ const Editor = ({ onChange, name, value }) => {
     const [content, setContent] = useState(parsedValue)
     return (
         <Wrapper>
-            <Slate
-                editor={editor}
-                value={content}
-                onChange={
-                    newValue => {
-                        setContent(newValue);
-                        onChange({ target: { name, value: JSON.stringify(newValue) } });
+            <CagThemeProvider ssr={{
+                isTablet: false,
+                isMobile: false
+            }}>
+                <Slate
+                    editor={editor}
+                    value={content}
+                    onChange={
+                        newValue => {
+                            setContent(newValue);
+                            onChange({ target: { name, value: JSON.stringify(newValue) } });
+                        }
                     }
-                }
-            >
-                <Editable />
-            </Slate>
+                >
+                    <Editable />
+                </Slate>               
+            </CagThemeProvider>
         </Wrapper>
     );
 };
