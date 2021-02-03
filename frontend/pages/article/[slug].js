@@ -8,6 +8,8 @@ import { getStrapiMedia } from "../../lib/media";
 
 import { Button, CagThemeProvider } from '@cag/cag-components';
 
+import { ModulabTable } from '@cag/cag-components';
+
 const Article = ({ article, categories }) => {
   const imageUrl = getStrapiMedia(article.image);
 
@@ -19,12 +21,18 @@ const Article = ({ article, categories }) => {
   };
 
   // const Button = () => <h1>Button</h1>;
+  
+  const myData = JSON.parse('{"dataTable":[{"dataRow":[{},{},{"image":{"url":"https://images.contentstack.io/v3/assets/bltc05b5aa7ae1c3a47/blt4d5280b5b3eb1fa9/5c52b6f8d626b8290a8e50aa/StandardCharteredUnlimitedMasterCard.png?width=200","title":""},"text":{"children":"Standard Chartered Unlimited Credit Card"},"button":{"children":"Apply now"}},{"image":{"url":"https://images.contentstack.io/v3/assets/bltc05b5aa7ae1c3a47/bltcdd47f9ce839f265/5e7dab80997d752c7ef32693/CitiPremierMilesMC.png?width=200","title":""},"text":{"children":"Citi PremierMiles Card"},"button":{"children":"Apply now"}}]},{"dataRow":[{"text":{"children":"Provider Name"}},{"text":{"children":"Standard Chartered"}},{"text":{"children":"Citibank"}}]},{"dataRow":[{"text":{"children":"Product Name"}},{"text":{"children":"Standard Chartered Unlimited Credit Card"}},{"text":{"children":"Citi PremierMiles Card"}}]}],"variant":"card comparison"}')
 
   const ContentParse = (props) => {
     console.log(props);
     switch(props.prop.type) {
       case 'paragraph': {
         return props.prop.children.map((child => {
+          console.log(child);
+          if(child.type==='product-comparison'){
+            return <ModulabTable {...myData}></ModulabTable>
+          }
           if (child.bold) {
             return <span style={{fontWeight: 'bold'}}>{child.text}</span>
           } else if (child.italic) {
@@ -34,6 +42,13 @@ const Article = ({ article, categories }) => {
           }
         }));
       };
+      case 'product-comparison': {
+        return (
+          <span>
+            <ModulabTable {...myData}></ModulabTable>
+          </span>
+        );
+      };      
       case 'cag-button': {
         return (
           <span>
